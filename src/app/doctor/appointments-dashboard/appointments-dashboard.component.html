@@ -1,0 +1,97 @@
+<app-public-header></app-public-header>
+
+<div class="dashboard-flex-container">
+  <div class="appointments-dashboard">
+    <div class="dashboard-header">
+      <h1>Appointments Dashboard</h1>
+      <button mat-raised-button color="primary" (click)="loadAppointments()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Loading appointments...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="error-container">
+      <mat-card class="error-card">
+        <mat-card-content>
+          <mat-icon color="warn">error</mat-icon>
+          <p>{{ error }}</p>
+          <button mat-raised-button color="primary" (click)="loadAppointments()">
+            Try Again
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Appointments Grid -->
+    <div *ngIf="!loading && !error" class="appointments-grid">
+      <div *ngIf="appointments.length === 0" class="no-appointments">
+        <mat-card>
+          <mat-card-content>
+            <mat-icon>event_busy</mat-icon>
+            <h3>No appointments found</h3>
+            <p>You don't have any appointments scheduled at the moment.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <a
+        *ngFor="let appointment of appointments"
+        [routerLink]="['/appointments', appointment.appointmentId]"
+        class="appointment-card-link"
+      >
+        <mat-card class="appointment-card">
+          <mat-card-header>
+            <div mat-card-avatar class="patient-avatar">
+              <img [src]="getPatientProfilePicture(appointment)" [alt]="getPatientFullName(appointment)" 
+                   (error)="onImageError($event)">
+            </div>
+            <mat-card-title>{{ getPatientFullName(appointment) }}</mat-card-title>
+            <mat-card-subtitle>
+              <span class="appointment-number">#{{ appointment.appointmentId.slice(0, 8) }}</span>
+              <span class="status-badge" [style.background-color]="getStatusColor(appointment.status)">
+                {{ appointment.status }}
+              </span>
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="appointment-details">
+              <div class="detail-row">
+                <mat-icon>event</mat-icon>
+                <span class="detail-label">Date:</span>
+                <span class="detail-value">{{ appointment.appointmentDate | date:'mediumDate' }}</span>
+              </div>
+
+              <div class="detail-row">
+                <mat-icon>schedule</mat-icon>
+                <span class="detail-label">Time:</span>
+                <span class="detail-value">{{ getAppointmentTime(appointment) }}</span>
+              </div>
+
+              <div class="detail-row">
+                <mat-icon>medical_services</mat-icon>
+                <span class="detail-label">Type:</span>
+                <span class="detail-value">{{ appointment.consultationType }}</span>
+              </div>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button mat-button color="primary">
+              <mat-icon>visibility</mat-icon>
+              View Details
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </a>
+    </div>
+  </div>
+  <app-public-footer> </app-public-footer>
+</div>

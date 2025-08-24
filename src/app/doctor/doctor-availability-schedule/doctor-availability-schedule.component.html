@@ -1,0 +1,39 @@
+<app-public-header></app-public-header>
+<div class="availability-schedule">
+  <div class="schedule-header">
+    <h2>Schedule Availability</h2>
+    <p>Set your available dates and times for patient appointments</p>
+  </div>
+
+  <div class="schedule-content">
+    <mat-card class="schedule-card">
+      <mat-card-content>
+        <div class="schedule-info">
+          <mat-icon class="info-icon">schedule</mat-icon>
+          <div class="info-text">
+            <h3>Manage Your Availability</h3>
+            <p>Click the button below to open the availability scheduler where you can:</p>
+            <ul>
+              <li>Select available dates from the calendar</li>
+              <li>Set your working hours (start and end times)</li>
+              <li>Choose appointment slot duration</li>
+              <li>Save your availability for patients to book</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="action-section">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="openAvailabilityDialog()"
+            class="schedule-button">
+            <mat-icon>add</mat-icon>
+            Schedule New Availability
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<app-public-footer> </app-public-footer>

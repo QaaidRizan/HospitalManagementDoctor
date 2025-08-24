@@ -1,0 +1,41 @@
+<header class="dashboard-header">
+  <div class="header-left">
+    <h1 class="logo">MediCare</h1>
+    <p class="welcome-text">Welcome back, Doctor! Manage your appointments</p>
+  </div>
+  
+  <div class="profile-section">
+    <div class="profile-info" (click)="toggleProfileDropdown()">
+      <img 
+        [src]="profileImageUrl" 
+        (error)="handleImageError()" 
+        alt="Profile" 
+        class="profile-image">
+      <span class="username">{{ username || 'User' }}</span>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </div>
+    
+    <!-- Profile Dropdown -->
+    <div class="profile-dropdown" *ngIf="showProfileDropdown">
+      <div class="dropdown-item" (click)="onProfileAction('edit-profile')">
+        <mat-icon>person</mat-icon>
+        <span>Edit Profile</span>
+      </div>
+      <div class="dropdown-item" (click)="onProfileAction('appointments')">
+        <mat-icon>calendar_today</mat-icon>
+        <span>Schedule Available Date</span>
+      </div>
+   
+  
+    
+  
+      <div class="dropdown-divider"></div>
+      <div class="dropdown-item logout" (click)="onProfileAction('logout')">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+

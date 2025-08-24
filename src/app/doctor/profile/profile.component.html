@@ -1,0 +1,112 @@
+<app-public-header [username]="username" [profileImageUrl]="profileImageUrl"></app-public-header>
+<div class="profile-container">
+  <div class="page-header">
+    <h1>My Profile</h1>
+    <p>Manage your personal information</p>
+  </div>
+
+  <div class="profile-content" *ngIf="!isLoading">
+    <div class="profile-image-section">
+      <div class="profile-image-container">
+        <img [src]="profileImageUrl" (error)="handleImageError()" alt="Profile Picture">
+        <div class="image-overlay">
+          <label for="profile-upload" class="upload-icon">
+            <mat-icon>photo_camera</mat-icon>
+          </label>
+          <input 
+            id="profile-upload" 
+            type="file" 
+            accept="image/*" 
+            (change)="onFileSelected($event)" 
+            style="display: none;">
+        </div>
+      </div>
+      <p class="upload-text">Click to change profile picture</p>
+      <p class="image-error" *ngIf="imageError">{{ imageError }}</p>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="submit()" class="profile-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName">
+          <mat-error *ngIf="profileForm.get('firstName')?.hasError('required')">
+            First name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName">
+          <mat-error *ngIf="profileForm.get('lastName')?.hasError('required')">
+            Last name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username">
+          <mat-error *ngIf="profileForm.get('username')?.hasError('required')">
+            Username is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone Number</mat-label>
+          <input matInput formControlName="phoneNumber">
+          <mat-error *ngIf="profileForm.get('phoneNumber')?.hasError('required')">
+            Phone number is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Specialization</mat-label>
+          <input matInput formControlName="specialization">
+          <mat-error *ngIf="profileForm.get('specialization')?.hasError('required')">
+            Specialization is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Location</mat-label>
+          <input matInput formControlName="department">
+          <mat-error *ngIf="profileForm.get('department')?.hasError('required')">
+            Department is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Qualifications</mat-label>
+        <textarea matInput formControlName="qualifications" rows="2"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="3" placeholder="Add a short bio or description"></textarea>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          type="submit" 
+          [disabled]="profileForm.invalid || isSubmitting">
+          <mat-spinner diameter="20" *ngIf="isSubmitting"></mat-spinner>
+          <span *ngIf="!isSubmitting">Save Changes</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading your profile information...</p>
+  </div>
+</div>
+<app-public-footer></app-public-footer>
+

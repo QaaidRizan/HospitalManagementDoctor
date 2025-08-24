@@ -1,0 +1,80 @@
+<div class="signup-container">
+  <div class="signup-card">
+    <div class="signup-header">
+      <div class="step-indicator">
+        <div class="step active">1</div>
+        <div class="step-line"></div>
+        <div class="step">2</div>
+        <div class="step-line"></div>
+        <div class="step">3</div>
+      </div>
+      <h1>Doctor Registration</h1>
+      <p>Step 1: Create your account</p>
+    </div>
+    
+    <form [formGroup]="form" (ngSubmit)="submit()" class="signup-form">
+      <div class="form-row">
+        <mat-form-field appearance="fill" class="half-width">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" placeholder="Enter first name" />
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="form.get('firstName')?.hasError('required')">First name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="half-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" placeholder="Enter last name" />
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="form.get('lastName')?.hasError('required')">Last name is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="Choose a username" />
+        <mat-icon matSuffix>account_circle</mat-icon>
+        <mat-error *ngIf="form.get('username')?.hasError('required')">Username is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Enter your email" />
+        <mat-icon matSuffix>email</mat-icon>
+        <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">Please enter a valid email</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Create a password" />
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'Show password'">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
+        <mat-error *ngIf="form.get('password')?.hasError('minlength')">Password must be at least 8 characters</mat-error>
+        <mat-error *ngIf="form.get('password')?.hasError('pattern')">
+          Password must contain uppercase, lowercase, number, and special character
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting" class="signup-btn">
+        <span class="btn-content">
+          <mat-progress-spinner
+            *ngIf="isSubmitting"
+            diameter="20"
+            mode="indeterminate"
+            class="btn-spinner"
+          ></mat-progress-spinner>
+          <span *ngIf="!isSubmitting">Continue to OTP Verification</span>
+        </span>
+      </button>
+      
+      <div class="form-footer">
+        <span>Already have an account?</span>
+        <a mat-button routerLink="/login" class="login-link">Sign In</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+

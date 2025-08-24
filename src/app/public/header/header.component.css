@@ -1,0 +1,91 @@
+.dashboard-header {
+  background: white;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-left .logo {
+  color: #2196f3;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.welcome-text {
+  color: #666;
+  margin: 0.15rem 0 0 0;
+  font-size: 0.85rem;
+}
+
+.profile-section { position: relative; }
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #eaeaea;
+}
+
+.profile-info:hover { background: #f7f7f7; border-color: #e0e0e0; }
+
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2196f3;
+}
+
+.username { font-weight: 600; color: #333; font-size: 0.95rem; }
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  min-width: 220px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.dropdown-item:hover { background: #fafafa; }
+.dropdown-item:last-child { border-bottom: none; }
+.dropdown-item mat-icon { color: #666; font-size: 1.1rem; }
+.dropdown-item span { color: #333; font-weight: 500; font-size: 0.95rem; }
+.dropdown-divider { height: 1px; background: #eaeaea; margin: 0.5rem 0; }
+.dropdown-item.logout, .dropdown-item.logout mat-icon, .dropdown-item.logout span { color: #f44336; }
+
+@media (max-width: 768px) {
+  .dashboard-header { padding: 0.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  .welcome-text { font-size: 0.8rem; }
+}
+
+

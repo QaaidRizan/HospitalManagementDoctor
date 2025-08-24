@@ -1,0 +1,143 @@
+<app-public-header></app-public-header>
+
+<div class="patient-profile">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading details...</p>
+  </div>
+
+  <div *ngIf="error && !loading" class="error-container">
+    <mat-card class="error-card">
+      <mat-card-content>
+        <mat-icon color="warn">error</mat-icon>
+        <p>{{ error }}</p>
+        <button mat-raised-button color="primary" (click)="backToDashboard()">Back</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!loading && !error && data" class="content">
+    <!-- Centered patient profile section -->
+    <div class="centered-profile-header improved-profile-card">
+      <div class="improved-avatar">
+        <img [src]="getPatientProfilePicture()" [alt]="(data.patient?.firstName || '') + ' ' + (data.patient?.lastName || '')" (error)="onAvatarError($event)" />
+      </div>
+      <div class="patient-name">{{ data.patient?.firstName }} {{ data.patient?.lastName }}</div>
+      <div class="appointment-number">Appointment ID: #{{ data.appointmentId }}</div>
+      <mat-divider></mat-divider>
+      <div class="appointment-details-row">
+        <span class="appointment-detail">
+          <mat-icon>event</mat-icon>
+          {{ formatDate(data.appointmentDate) }}
+        </span>
+        <span class="appointment-detail">
+          <mat-icon>schedule</mat-icon>
+          {{ data.startTime }} - {{ data.endTime }}
+        </span>
+        <span class="appointment-detail">
+          <mat-icon>info</mat-icon>
+          <mat-chip-list>
+            <mat-chip [ngClass]="(data.status || '').toLowerCase()" selected>{{ data.status }}</mat-chip>
+          </mat-chip-list>
+        </span>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+
+    <mat-card class="patient-card improved-patient-card">
+      <mat-card-header>
+        <mat-card-title>Patient Details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="data.patient; else noPatient">
+          <div class="details-grid">
+            <div class="detail-item">
+              <mat-icon>person</mat-icon>
+              <span>{{ data.patient?.firstName }} {{ data.patient?.lastName }}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>cake</mat-icon>
+              <span>{{ formatDate(data.patient?.dateOfBirth) }} <ng-container *ngIf="data.patient?.dateOfBirth"> ({{ calculateAge(data.patient?.dateOfBirth) }} yrs)</ng-container></span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>wc</mat-icon>
+              <span>{{ data.patient?.gender }}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>phone</mat-icon>
+              <span>{{ data.patient?.phoneNumber }}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>email</mat-icon>
+              <span>{{ data.patient?.email }}</span>
+            </div>
+            <div class="detail-item full">
+              <mat-icon>home</mat-icon>
+              <span>{{ data.patient?.address }}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>bloodtype</mat-icon>
+              <span>{{ data.patient?.bloodGroup }}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>contact_phone</mat-icon>
+              <span>{{ data.patient?.emergencyContact }}</span>
+            </div>
+          </div>
+        </div>
+        <ng-template #noPatient>
+          <p>No patient details available.</p>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="status-card">
+      <mat-card-header>
+        <mat-card-title>Update Status</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="status-row">
+          <mat-form-field appearance="fill" class="status-select">
+            <mat-label>Status</mat-label>
+            <mat-select [(value)]="selectedStatus">
+              <mat-option *ngFor="let s of statusOptions" [value]="s">
+                <span class="status-badge" [ngClass]="s.toLowerCase()">{{ s }}</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" (click)="updateStatus()" [disabled]="loading || !selectedStatus">
+            <mat-icon *ngIf="!loading">save</mat-icon>
+            <mat-progress-spinner *ngIf="loading" diameter="16" mode="indeterminate"></mat-progress-spinner>
+            Update Status
+          </button>
+          
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="notes-card improved-notes-card">
+      <mat-card-header>
+        <mat-card-title><mat-icon class="notes-icon">note_alt</mat-icon> Doctor Notes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field appearance="fill" class="notes-field">
+          <mat-label>Write your notes</mat-label>
+          <textarea matInput rows="5" [(ngModel)]="doctorNotes" placeholder="Add any observations or instructions..."></textarea>
+        </mat-form-field>
+        <div class="notes-actions">
+          <button mat-raised-button color="primary" (click)="updateNotes()" [disabled]="loading">
+            <mat-icon>save</mat-icon>
+            Save Notes
+          </button>
+          <div class="notes-saved-msg" *ngIf="data?.notes === doctorNotes && doctorNotes">
+            <mat-icon>check_circle</mat-icon>
+            Saved
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+

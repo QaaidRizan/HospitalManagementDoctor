@@ -1,0 +1,304 @@
+.availability-dialog {
+  max-width: 1000px; /* Increased from 500px */
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 16px 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 24px;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.close-button {
+  color: #666;
+}
+
+.dialog-content {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.availability-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Calendar Section */
+.calendar-section h3 {
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.month-title {
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.nav-button {
+  color: #666;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.calendar-day-header {
+  text-align: center;
+  font-weight: 600;
+  color: #666;
+  font-size: 0.9rem;
+  padding: 8px 4px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.calendar-day {
+  text-align: center;
+  padding: 12px 4px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  color: #999;
+  background-color: #f9f9f9;
+  border: 1px solid transparent;
+}
+
+.calendar-day.current-month {
+  color: #333;
+  background-color: white;
+  border-color: #e0e0e0;
+}
+
+.calendar-day.current-month:hover {
+  background-color: #f0f8ff;
+  border-color: #2196f3;
+}
+
+.calendar-day.selected {
+  background-color: #2196f3;
+  color: white;
+  border-color: #2196f3;
+  font-weight: 600;
+}
+
+.calendar-day.past-date {
+  color: #ccc;
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.calendar-day.past-date:hover {
+  background-color: #f5f5f5;
+  border-color: transparent;
+}
+
+.selected-date-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background-color: #e3f2fd;
+  border-radius: 6px;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.selected-date-info mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Time Section */
+.time-section h3 {
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+}
+
+.time-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.time-field {
+  width: 100%;
+}
+
+.duration-field {
+  width: 100%;
+}
+
+/* Form Fields */
+mat-form-field {
+  width: 100%;
+}
+
+mat-form-field mat-icon {
+  color: #666;
+}
+
+/* Dialog Actions */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 0 0 0;
+  margin-top: 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.submit-button {
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submit-button mat-spinner {
+  margin-right: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .availability-dialog {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .dialog-header {
+    padding: 0 0 12px 0;
+    margin-bottom: 16px;
+  }
+
+  .dialog-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .availability-form {
+    gap: 24px;
+  }
+
+  .time-inputs {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .calendar-day {
+    padding: 8px 2px;
+    font-size: 0.9rem;
+  }
+
+  .calendar-day-header {
+    padding: 6px 2px;
+    font-size: 0.8rem;
+  }
+
+  .dialog-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .submit-button {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+/* Loading State */
+.submit-button:disabled {
+  opacity: 0.7;
+}
+
+/* Form Validation Styles */
+mat-form-field.ng-invalid.ng-touched {
+  border-color: #f44336;
+}
+
+mat-error {
+  font-size: 0.8rem;
+  color: #f44336;
+}
+
+.calendar-day.scheduled {
+  background-color: #43a047 !important; /* Green */
+  color: #fff !important;
+  border-color: #43a047 !important;
+  font-weight: 600;
+}
+
+/* Time Slots Section */
+.time-slots-section {
+  margin-bottom: 24px;
+}
+
+.time-slots-section h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 12px;
+}
+
+.time-slot-btn {
+  height: 40px;
+  font-size: 14px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.time-slot-btn:hover {
+  background-color: rgba(25, 118, 210, 0.1);
+  border-color: #1976d2;
+}
+
+.time-slot-btn.selected {
+  background-color: #1976d2;
+  color: white;
+  border-color: #1976d2;
+}
+
+.remove-availability-btn {
+  margin-top: 24px;
+  display: block;
+}
+
+.slots-action-buttons {
+  margin-top: 32px;
+  display: flex;
+  gap: 12px;
+}

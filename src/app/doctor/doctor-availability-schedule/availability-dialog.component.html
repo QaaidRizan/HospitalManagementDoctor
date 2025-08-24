@@ -1,0 +1,149 @@
+<div class="availability-dialog">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>Schedule Availability</h2>
+    <button mat-icon-button (click)="onCancel()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <form [formGroup]="availabilityForm" class="availability-form">
+      
+      <!-- Calendar Section -->
+      <div class="calendar-section">
+        <h3>Select Date</h3>
+        
+        <div class="calendar-header">
+          <button mat-icon-button (click)="previousMonth()" class="nav-button">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <h4 class="month-title">{{ getMonthName() }}</h4>
+          <button mat-icon-button (click)="nextMonth()" class="nav-button">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+
+        <div class="calendar-grid">
+          <!-- Day headers -->
+          <div class="calendar-day-header" *ngFor="let dayName of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+            {{ dayName }}
+          </div>
+
+          <!-- Calendar days -->
+          <div 
+            *ngFor="let date of calendarDays" 
+            class="calendar-day"
+            [class.selected]="isSelectedDate(date)"
+            [class.current-month]="isCurrentMonth(date)"
+            [class.past-date]="isPastDate(date)"
+            [class.scheduled]="isScheduledDate(date)"
+            (click)="toggleDateSelection(date)">
+            {{ getDayNumber(date) }}
+          </div>
+        </div>
+
+        <div class="selected-date-info" *ngIf="selectedDates.length > 0">
+          <mat-icon>event</mat-icon>
+          <span>Selected: 
+            <ng-container *ngFor="let d of selectedDates; let last = last">
+              {{ d | date:'fullDate' }}<span *ngIf="!last">, </span>
+            </ng-container>
+          </span>
+        </div>
+      </div>
+
+      <!-- Time and Duration Section -->
+      <div class="time-section">
+        <h3>Set Working Hours</h3>
+        
+        <div class="time-inputs">
+          <mat-form-field appearance="outline" class="time-field">
+            <mat-label>Start Time</mat-label>
+            <input 
+              matInput 
+              type="time" 
+              formControlName="startTime"
+              placeholder="09:00">
+            <mat-icon matSuffix>schedule</mat-icon>
+            <mat-error *ngIf="availabilityForm.get('startTime')?.hasError('required')">
+              Start time is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="time-field">
+            <mat-label>End Time</mat-label>
+            <input 
+              matInput 
+              type="time" 
+              formControlName="endTime"
+              placeholder="17:00">
+            <mat-icon matSuffix>schedule</mat-icon>
+            <mat-error *ngIf="availabilityForm.get('endTime')?.hasError('required')">
+              End time is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="duration-field">
+          <mat-label>Appointment Slot Duration</mat-label>
+          <mat-select formControlName="slotDuration">
+            <mat-option *ngFor="let duration of slotDurationOptions" [value]="duration">
+              {{ duration }} minutes
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>timer</mat-icon>
+          <mat-error *ngIf="availabilityForm.get('slotDuration')?.hasError('required')">
+            Slot duration is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Time Slots Section -->
+      <div class="time-slots-section" *ngIf="scheduledSlotInfo">
+        <h3>Time Slots for {{ selectedDate | date:'EEEE, MMMM d, y' }}</h3>
+        <div class="time-slots-grid" *ngIf="availableTimeSlots.length > 0">
+          <button 
+            mat-stroked-button
+            *ngFor="let slot of availableTimeSlots"
+            class="time-slot-btn"
+            disabled>
+            {{ slot.time }}
+          </button>
+        </div>
+        <div class="no-slots-message" *ngIf="availableTimeSlots.length === 0">
+          <mat-icon>schedule</mat-icon>
+          <p>No available time slots for the selected date.</p>
+        </div>
+        <!-- Add a wrapper for the action buttons -->
+        <div class="slots-action-buttons">
+          <button mat-button color="warn" (click)="removeAvailability(scheduledSlotInfo.availabilityId)">
+            Remove Availability
+          </button>
+          <button mat-button (click)="scheduledSlotInfo = null; selectedDate = null;">Close</button>
+        </div>
+      </div>
+
+      <div #slotsSection>
+        <!-- Slot details and time slots go here -->
+        <ng-container *ngIf="scheduledSlotInfo">
+          <!-- ...slot details... -->
+        </ng-container>
+      </div>
+
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button 
+      mat-button 
+      (click)="onCancel()" 
+      [disabled]="loading">
+      Cancel
+    </button>
+    <button mat-raised-button color="primary"
+        (click)="checkAndSubmitAvailability()"
+        [disabled]="loading || !isFormValid()">
+      Schedule Availability
+    </button>
+  </mat-dialog-actions>
+</div>
