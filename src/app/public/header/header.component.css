@@ -8,13 +8,16 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  height: 64px; /* Fixed header height */
+
 }
 
-.header-left .logo {
-  color: #2196f3;
+.header-left img.logo {
+  width: auto;
+  height: 50px;
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 700;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .welcome-text {

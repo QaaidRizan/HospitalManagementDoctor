@@ -20,7 +20,9 @@
     <!-- Centered patient profile section -->
     <div class="centered-profile-header improved-profile-card">
       <div class="improved-avatar">
-        <img [src]="getPatientProfilePicture()" [alt]="(data.patient?.firstName || '') + ' ' + (data.patient?.lastName || '')" (error)="onAvatarError($event)" />
+        <img [src]="getPatientProfilePicture()"
+          [alt]="(data.patient?.firstName || '') + ' ' + (data.patient?.lastName || '')"
+          (error)="onAvatarError($event)" />
       </div>
       <div class="patient-name">{{ data.patient?.firstName }} {{ data.patient?.lastName }}</div>
       <div class="appointment-number">Appointment ID: #{{ data.appointmentId }}</div>
@@ -57,7 +59,8 @@
             </div>
             <div class="detail-item">
               <mat-icon>cake</mat-icon>
-              <span>{{ formatDate(data.patient?.dateOfBirth) }} <ng-container *ngIf="data.patient?.dateOfBirth"> ({{ calculateAge(data.patient?.dateOfBirth) }} yrs)</ng-container></span>
+              <span>{{ formatDate(data.patient?.dateOfBirth) }} <ng-container *ngIf="data.patient?.dateOfBirth"> ({{
+                  calculateAge(data.patient?.dateOfBirth) }} yrs)</ng-container></span>
             </div>
             <div class="detail-item">
               <mat-icon>wc</mat-icon>
@@ -111,7 +114,7 @@
             <mat-progress-spinner *ngIf="loading" diameter="16" mode="indeterminate"></mat-progress-spinner>
             Update Status
           </button>
-          
+
         </div>
       </mat-card-content>
     </mat-card>
@@ -121,15 +124,35 @@
         <mat-card-title><mat-icon class="notes-icon">note_alt</mat-icon> Doctor Notes</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <mat-form-field appearance="fill" class="notes-field">
-          <mat-label>Write your notes</mat-label>
-          <textarea matInput rows="5" [(ngModel)]="doctorNotes" placeholder="Add any observations or instructions..."></textarea>
+        <mat-form-field appearance="outline" class="notes-field full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput [(ngModel)]="doctorNotes" rows="6" #notesTextarea></textarea>
         </mat-form-field>
         <div class="notes-actions">
           <button mat-raised-button color="primary" (click)="updateNotes()" [disabled]="loading">
             <mat-icon>save</mat-icon>
             Save Notes
           </button>
+          <button mat-raised-button color="accent" (click)="toggleRecording()">
+            <mat-icon *ngIf="!isRecording">mic</mat-icon>
+            <mat-icon *ngIf="isRecording">stop_circle</mat-icon>
+            {{ isRecording ? 'Stop Recording' : 'Record Notes' }}
+          </button>
+          <button mat-raised-button color="warn" (click)="analyzeNote()" [disabled]="loading || !doctorNotes">
+            <mat-icon>smart_toy</mat-icon>
+            AI Analyze
+          </button>
+          <span *ngIf="isRecording" class="recording-indicator">
+            <mat-icon>fiber_manual_record</mat-icon> Recording...
+          </span>
+          <span *ngIf="transcribing" class="transcribing-indicator">
+            <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+            Transcribing...
+          </span>
+          <span *ngIf="aiAnalyzing" class="ai-analyzing-indicator">
+            <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+            Analyzing with AI...
+          </span>
           <div class="notes-saved-msg" *ngIf="data?.notes === doctorNotes && doctorNotes">
             <mat-icon>check_circle</mat-icon>
             Saved
@@ -139,5 +162,3 @@
     </mat-card>
   </div>
 </div>
-
-

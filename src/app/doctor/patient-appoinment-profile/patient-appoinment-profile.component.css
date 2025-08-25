@@ -217,10 +217,20 @@
   margin-bottom: 12px;
 }
 
+.notes-field textarea,
+mat-form-field.notes-field textarea {
+  min-height: 120px;      /* Increase minimum height */
+  max-height: 320px;      /* Allow more space if needed */
+  resize: vertical;       /* Allow vertical resizing by user */
+  font-size: 1.08rem;
+  line-height: 1.5;
+}
+
 .notes-actions {
   display: flex;
   align-items: center;
   gap: 16px;
+  flex-wrap: wrap;
 }
 
 .notes-saved-msg {
@@ -243,6 +253,32 @@ button.mat-raised-button.mat-primary {
 .mat-raised-button.mat-primary:hover,
 button.mat-raised-button.mat-primary:hover {
   background-color: #115293 !important; /* Slightly darker on hover */
+}
+
+/* Recording and Transcribing Indicators */
+.recording-indicator {
+  color: #d32f2f;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.transcribing-indicator {
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.transcribing-indicator.prominent {
+  font-size: 1.15rem;
+  color: #1976d2;
+  margin-bottom: 12px;
+  justify-content: center;
+}
+.ai-analyzing-indicator {
+  color: #ff9800;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* Responsive */

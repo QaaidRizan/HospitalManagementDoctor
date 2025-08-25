@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 })
 export class PublicHeaderComponent implements OnInit {
   @Input() username: string = 'User';
-  @Input() profileImageUrl: string = 'assets/images/default-avatar.png';
+  @Input() profileImageUrl: string = 'assets/images/default-avatar.webp';
   @Output() actionSelected = new EventEmitter<string>();
 
   showProfileDropdown = false;
@@ -35,7 +35,7 @@ export class PublicHeaderComponent implements OnInit {
       },
       error: () => {
         this.username = 'User';
-        this.profileImageUrl = 'assets/images/default-avatar.png';
+        this.profileImageUrl = 'assets/images/default-avatar.webp';
       }
     });
   }
@@ -75,7 +75,7 @@ export class PublicHeaderComponent implements OnInit {
   }
 
   handleImageError(): void {
-    this.profileImageUrl = 'assets/images/default-avatar.png';
+    this.profileImageUrl = 'assets/images/default-avatar.webp';
   }
 }
 
